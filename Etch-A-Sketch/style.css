@@ -1,0 +1,18 @@
+.grid-container {
+  background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: 1000px;
+  max-width: 90vh;
+}
+
+#refresh {
+  display: block;
+  margin: 1rem auto;
+}
+
+.grid-item {
+  background-color: black;
+  opacity: 0;
+}
