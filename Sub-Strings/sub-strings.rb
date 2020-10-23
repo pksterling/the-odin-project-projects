@@ -11,13 +11,13 @@ end
 def find_potential_matches( string, substring )
   potential_match_index = string.index( substring[0] )
   
-  if potential_match_index
-    potential_match = string.slice( potential_match_index, substring.length )
-    check_potential_match( potential_match, substring )
+  return unless potential_match_index
 
-    updated_string = string[potential_match_index + 1..]
-    find_potential_matches( updated_string, substring )
-  end
+  potential_match = string.slice( potential_match_index, substring.length )
+  check_potential_match( potential_match, substring )
+
+  updated_string = string[potential_match_index + 1..]
+  find_potential_matches( updated_string, substring )
 end
 
 def substrings( string, substrings )
