@@ -12,8 +12,7 @@ def bubble_sort(array)
   sorted = false
 
   # Iterate through array
-  sorted_array.each.with_index {|value, index|
-
+  sorted_array.each.with_index { |value, index|
     # Stop continuing if you're past the last pair
     if index < sorted_array.length - 1
       pair = sorted_array[index.. index + 1]
@@ -23,7 +22,7 @@ def bubble_sort(array)
       next if pair == new_pair
 
       # Replace unsorted pair with sorted pair
-      sorted_array[index..index + 1] = new_pair
+      sorted_array[index.. index + 1] = new_pair
 
       # Log that, during this iteration, a sort took place
       sorted = true
