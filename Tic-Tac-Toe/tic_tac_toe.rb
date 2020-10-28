@@ -22,6 +22,7 @@ class Game
 
   def play_round
     @round_number += 1
+    # Reset used tiles array
     @used_tiles = []
     @board = Board.new
     
@@ -50,12 +51,14 @@ class Game
     @board.print
     
     coordinates = "x0"
+    # Refuses incorrect coordinate format, as well as used coordinates
     until /\A[abc][123]\z/i.match(coordinates) && !@used_tiles.include?(coordinates) do 
       puts "#{player.name}, type your coordinates!"
       coordinates = gets.chomp
     end
     
     @used_tiles.push(coordinates)
+    # Change targeted tile from " " to "X" or "O"
     @board.send("#{coordinates}=", player.symbol)
     @@turn_order.reverse!
   end
@@ -85,7 +88,7 @@ class Game
       end
       puts "Congratulations, #{@game_winner.name}! You win the entire game!!!"
     else
-      puts "yBrilliant. No one has proved worthy of the title of victor! "\
+      puts "Brilliant. No one has proved worthy of the title of victor! "\
       "Here's another round to decide upon a winner..."
       play_round
       end_game
@@ -162,6 +165,8 @@ class Board
       @winner = "noughts" if line.uniq == ["O"]
     }
 
+    # Unless a winner has already been found, if none of the tiles are empty
+    # then a draw is declared
     unless @winner
       if self.instance_variables.none? { |tile|
         instance_variable_get(tile) == " "
