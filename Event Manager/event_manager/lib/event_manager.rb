@@ -48,7 +48,12 @@ def find_registration_hour(datetime)
   DateTime.strptime(datetime, "%m/%d/%y %k:%M").hour
 end
 
+def find_registration_day(datetime)
+  DateTime.strptime(datetime, "%m/%d/%y %k:%M").wday
+end
+
 def find_busiest_hour(hour_tally)
+# Will also work for weekdays
   active_hours = hour_tally.uniq
   active_hour_frequency = {}
   peak_hours = []
@@ -66,7 +71,7 @@ def find_busiest_hour(hour_tally)
     end
   end
 
-  "#{highest_frequency} citizen(s) registered during the following peak hour(s): #{peak_hours.join(", ")}"
+  "#{highest_frequency} citizen(s) registered during the following peak time period(s): #{peak_hours.join(", ")}"
 end
 
 puts "EventManager Initialized!"
@@ -76,10 +81,12 @@ contents = CSV.open "event_attendees.csv", headers: true, header_converters: :sy
 template_letter = File.read "form_letter.erb"
 erb_template = ERB.new template_letter
 registration_hour_tally = []
+registration_day_tally = []
 
 contents.each do |row|
   id = row[0]
   registration_hour = find_registration_hour(row[:regdate])
+  registration_day = find_registration_day(row[:regdate])
   name = row[:first_name]
   phone_number = clean_phone_number(row[:homephone])
   zipcode = clean_zipcode(row[:zipcode])
@@ -88,7 +95,9 @@ contents.each do |row|
   form_letter = erb_template.result(binding)
   save_thank_you_letter(id, form_letter)
 
-  registration_hour_tally.push(registration_hour)
+  registration_hour_tally.push("#{registration_hour}:00-#{registration_hour}:59")
+  registration_day_tally.push("#{Date::DAYNAMES[registration_day]}s")
 end
 
 p find_busiest_hour(registration_hour_tally)
+p find_busiest_hour(registration_day_tally)
