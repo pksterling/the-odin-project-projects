@@ -146,7 +146,8 @@ class Game
 
       puts "Go ##{goes}\nComputer guessed #{guess}"
       matches = check_code(code, guess)
-      puts "Computer has #{matches[:exact_matches]} exact matches and #{matches[:color_matches]} colour-only matches."
+      puts "Computer has #{matches[:exact_matches]} exact matches and "\
+      "#{matches[:color_matches]} colour-only matches."
       @exact_matches = matches[:exact_matches]
       return goes if @exact_matches == 4
 
@@ -158,6 +159,10 @@ class Game
       # Remove the current guess from the remaining options
       options.delete(guess)
       guess = options[0]
+      puts "Computer has narrowed it down to #{options.length} possibilities."
+
+      puts "Press enter to continue..."
+      gets
       # Guess again
       guessing_algorithm(options, code, guess, goes)
     end
